@@ -1,0 +1,539 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================
+   THEME TOKENS
+   ========================================= */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ===== Root tokens ===== */
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  --nav-h: 4rem;
+  --font-geist-sans: var(--font-inter);
+
+  /* Cursor glow defaults */
+  --x: 50vw;
+  --y: 50vh;
+
+  /* Neon design tokens */
+  --gradient-neon: linear-gradient(90deg, #00C6FF, #8A2BE2);
+  --glow-cyan-rgb: 0, 198, 255;
+  --glow-violet-rgb: 138, 43, 226;
+  --btn-gradient: linear-gradient(90deg, #00C6FF, #8A2BE2);
+
+  /* Global responsive gutter (used by container-gutters) */
+  --gutter: 1rem;
+}
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+/* Nav height scales slightly */
+@media (min-width: 768px)   { :root { --nav-h: 4.5rem; --gutter: 1.25rem; } }
+@media (min-width: 1024px)  { :root { --nav-h: 5rem;   --gutter: 2rem;    } }
+@media (min-width: 1280px)  { :root { --gutter: 2rem;  } }
+
+/* =========================================
+   SCROLLBARS
+   ========================================= */
+.custom-scrollbar::-webkit-scrollbar { width: 8px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #1a1a1a; border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.234); border-radius: 4px; border: 2px solid #1a1a1a; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: rgba(0,255,255,0.292); }
+.custom-scrollbar { scrollbar-width: thin; scrollbar-color: #00ffff4b #1a1a1a; }
+
+/* =========================================
+   CURSOR GLOW
+   ========================================= */
+.cursor-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  background: radial-gradient(
+    circle at var(--x) var(--y),
+    rgba(0, 255, 251, 0.125) 0%,
+    rgba(138, 43, 226, 0) 20%
+  );
+  background-repeat: no-repeat;
+  transition: background 0.1s ease-out;
+  will-change: background;
+}
+
+.img-focus-bottom { object-position: 50% 100% !important; }
+
+.bg-crop-mask::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: clamp(72px, 12vh, 180px);
+  background: #030303;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* =========================================
+   BASE / LAYOUT SAFETY
+   ========================================= */
+@layer base {
+  * { @apply border-border outline-ring/50; }
+
+  html {
+    scroll-padding-top: var(--nav-h);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img, video, canvas, svg { max-width: 100%; height: auto; }
+
+  button, a { cursor: pointer; }
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes fade-in-up { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+.animate-fade-in-up { animation: fade-in-up 0.6s ease-out; }
+
+@keyframes neon-glow {
+  0%,100% { box-shadow: 0 0 5px #00FFFF, 0 0 10px #8A2BE2, 0 0 15px #00FFFF; }
+  50%     { box-shadow: 0 0 10px #00FFFF, 0 0 20px #8A2BE2, 0 0 30px #00FFFF; }
+}
+@keyframes border-glow {
+  0%,100% { box-shadow: 0 0 3px #00FFFF; border-color:#8A2BE2; }
+  50%     { box-shadow: 0 0 7px hsl(271,76%,53%); border-color:#00FFFF; }
+}
+@keyframes roll { from {transform:translateX(0);} to {transform:translateX(-50%);} }
+@keyframes roll-testimonials { from {transform:translateX(0);} to {transform:translateX(-50%);} }
+.animate-roll-testimonials { animation: roll-testimonials 20s linear infinite; }
+.animate-roll { animation: roll 30s linear infinite; }
+
+/* =========================================
+   NEON UTILITIES
+   ========================================= */
+.bg-gradient-neon { background-image: var(--gradient-neon); }
+.neon-glow-animation { animation: neon-glow 3s ease-in-out infinite alternate; }
+.border-glow-animation { animation: border-glow 1.5s ease-in-out infinite alternate; }
+
+.text-gradient-neon {
+  background-image: var(--gradient-neon);
+  background-clip: text; -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display:inline-block; line-height:1.2; padding-bottom:2px;
+}
+.text-gradient-neonsubtle {
+  background-image: linear-gradient(90deg, #00C6FF, #ADD8E6);
+  background-clip: text; -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:inline-block; line-height:1.2; padding-bottom:2px;
+}
+
+/* =========================================
+   DIGITAL GRID OVERLAY
+   ========================================= */
+.digital-grid-overlay {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  z-index:5; pointer-events:none;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.08), rgba(255,255,255,0.08) 1px, transparent 1px, transparent 50px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.08) 1px, transparent 1px, transparent 50px);
+  background-size: 50px 50px;
+  will-change: background-position;
+  animation: grid-scroll 200s linear infinite;
+}
+@keyframes grid-scroll { from {background-position:0 0;} to {background-position:50px 50px;} }
+
+/* =========================================
+   CARD HOVER GLOW
+   ========================================= */
+.card-glow-hover {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+.card-glow-hover:hover {
+  box-shadow: 0 0 15px rgba(var(--glow-cyan-rgb), 0.5), 0 0 20px rgba(var(--glow-violet-rgb), 0.5);
+  border-color: rgb(var(--glow-cyan-rgb));
+}
+
+/* =========================================
+   UNIVERSAL BUTTON (edge-safe neon bg)
+   ========================================= */
+.btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.625rem 1rem;
+  font-weight: 600;
+  line-height: 1;
+  color: white;
+
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+
+  background: transparent;
+  cursor: pointer;
+
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  will-change: transform, box-shadow;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-image: var(--btn-gradient);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 115% 115%;
+  transform: translateZ(0);
+}
+
+/* optional shape + size modifiers */
+.btn--pill { border-radius: 9999px; }
+.btn--sm { padding: 0.5rem 0.875rem; font-size: 0.925rem; }
+.btn--lg { padding: 0.75rem 1.25rem; font-size: 1.05rem; }
+
+/* motion + glow */
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(var(--glow-cyan-rgb), 0.5), 0 0 20px rgba(var(--glow-violet-rgb), 0.5);
+  border-color: rgb(var(--glow-cyan-rgb));
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(var(--glow-cyan-rgb), 0.6), 0 0 0 4px rgba(var(--glow-violet-rgb), 0.35);
+}
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgba(var(--glow-cyan-rgb), 0.35), 0 0 14px rgba(var(--glow-violet-rgb), 0.35);
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Outline variant: no gradient fill, keeps glow + motion */
+.btn--outline { background: transparent; color: white; border-color: white; }
+.btn--outline::before { display: none; }
+.btn--outline:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(var(--glow-cyan-rgb), 0.5), 0 0 20px rgba(var(--glow-violet-rgb), 0.5);
+  border-color: rgb(var(--glow-cyan-rgb));
+}
+
+/* ===== react-international-phone: compact, dark theme ===== */
+.rip-input{
+  display:flex;align-items:center;width:100%;
+  padding:.5rem .75rem;background:#1e293b;border:1px solid #475569;border-radius:.5rem;
+  transition:box-shadow .2s ease,border-color .2s ease;
+}
+.rip-input:focus-within{border-color:transparent;box-shadow:0 0 0 2px #22d3ee;}
+@media (min-width:640px){.rip-input{padding:.75rem;}}
+
+.rip-btn{cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
+  padding-right:.5rem;margin-right:.5rem;border-right:1px solid #475569;color:#e5e7eb;}
+.phone-chevron{width:20px;height:20px;color:#fff;opacity:.95;}
+@media (min-width:640px){.phone-chevron{width:18px;height:18px;}}
+.rip-flag{width:24px;height:18px;}
+
+.rip-dd{
+  background:#0f172a;border:1px solid #334155;border-radius:.5rem;
+  box-shadow:0 10px 25px rgba(0,0,0,.45);overflow:auto;z-index:9999;
+}
+
+.rip-search{background:#0b1220;border:1px solid #334155;color:#e5e7eb;}
+
+.rip-item{width:100%;display:flex;align-items:center;gap:.5rem;padding:.5rem .75rem;
+  background:transparent;border:0;color:#e5e7eb;text-align:left;}
+.rip-item:hover,.rip-item[aria-selected="true"]{background:#1f2937;}
+
+.custom-scrollbar::-webkit-scrollbar{width:8px;}
+.custom-scrollbar::-webkit-scrollbar-track{background:#0b1220;border-radius:4px;}
+.custom-scrollbar::-webkit-scrollbar-thumb{background-color:rgba(255,255,255,.22);border-radius:4px;border:2px solid #0b1220;}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover{background-color:rgba(0,255,255,.35);}
+.custom-scrollbar{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) #0b1220;}
+
+
+/* =========================================
+   MISC UTILITIES
+   ========================================= */
+@layer utilities {
+  .text-shadow   { text-shadow:0 2px 4px rgba(0,0,0,0.4); }
+  .text-shadow-sm{ text-shadow:0 1px 3px rgba(0,0,0,0.4); }
+}
+
+/* Glassmorphism card (kept for reuse) */
+.glass-card {
+  background:linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.15);
+  position:relative; overflow:hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card::after {
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.2), transparent 70%);
+  transform:translateX(-101%); transition: transform 0.6s ease;
+}
+.glass-card:hover::after { transform:translateX(101%); }
+.glass-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+
+/* =========================================
+   SECTION SPACING SYSTEM (with modifiers)
+   ========================================= */
+/* Default, consistent rhythm */
+.section-spacing { padding-top: 3rem; padding-bottom: 3rem; }
+@media (min-width: 768px)  { .section-spacing { padding-top: 3.5rem; padding-bottom: 3.5rem; } }
+@media (min-width: 1024px) { .section-spacing { padding-top: 4rem;  padding-bottom: 4rem;  } }
+@media (min-width: 1280px) { .section-spacing { padding-top: 4rem;  padding-bottom: 4rem;  } }
+
+/* Tighten both sides for compact sections */
+.section-spacing--tight { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+@media (min-width: 768px)  { .section-spacing--tight { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; } }
+@media (min-width: 1024px) { .section-spacing--tight { padding-top: 3rem !important;  padding-bottom: 3rem !important;  } }
+
+/* Tighten only TOP (e.g., Services after About; fixes iPad Pro gap) */
+.section-spacing--tight-top { padding-top: 2rem !important; }
+@media (min-width: 768px)  { .section-spacing--tight-top { padding-top: 2.5rem !important; } }
+@media (min-width: 1024px) { .section-spacing--tight-top { padding-top: 2rem !important;  } }
+
+/* Tighten only BOTTOM (e.g., About before Services) */
+.section-spacing--tight-bottom { padding-bottom: 2rem !important; }
+@media (min-width: 768px)  { .section-spacing--tight-bottom { padding-bottom: 2.5rem !important; } }
+@media (min-width: 1024px) { .section-spacing--tight-bottom { padding-bottom: 2rem !important;  } }
+
+/* Looser hero-style sections (optional) */
+.section-spacing--loose { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+@media (min-width: 768px)  { .section-spacing--loose { padding-top: 5rem !important; padding-bottom: 5rem !important; } }
+@media (min-width: 1024px) { .section-spacing--loose { padding-top: 6rem !important; padding-bottom: 6rem !important; } }
+
+/* === SERVICE HERO OVERRIDE (md+) ===
+   Beats `.section-spacing--loose` even with !important. */
+@media (min-width: 768px) {
+  section.hero-overrides {
+    /* tighten top/bottom across tablets/laptops */
+    padding-top: 2rem !important;
+    padding-bottom: 2.25rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  section.hero-overrides {
+    /* a touch more room on desktops, still tighter than loose */
+    padding-top: 2rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+}
+
+/* =========================================
+   CONTAINER POLYFILL + SAFE-AREA GUTTERS
+   ========================================= */
+/* Basic container centering (in case Tailwind's container plugin isn't used) */
+.container { width: 100%; margin-inline: auto; }
+/* Gutters that always show horizontal padding, safe-area aware (iOS notch) */
+.container-gutters {
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* =========================================
+   RAIL SHEEN + REDUCED MOTION
+   ========================================= */
+@keyframes rail-sheen {
+  0%{background-position:0% 0%;}
+  50%{background-position:0% 100%;}
+  100%{background-position:0% 0%;}
+}
+.animate-rail-sheen { animation: rail-sheen 4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-rail-sheen { animation:none !important; }
+  .animate-roll, .animate-roll-testimonials, .neon-glow-animation { animation:none !important; }
+}
+
+
+/* =========================================
+   NAV OFFSET (stable across all breakpoints)
+   ========================================= */
+/* Apply to <main class="stack-below-nav"> */
+.stack-below-nav {
+  padding-top: var(--nav-h);
+}
+
+/* At md+, nav grows slightly taller, but it's defined in :root media queries,
+   so this offset remains stable at first paint (no JS calc needed). */
+@media (min-width: 768px) {
+  .stack-below-nav {
+    padding-top: var(--nav-h); /* already 4.5rem from :root */
+  }
+}
+
+/* =========================================
+   HERO FIRST FOLD (mobile only)
+   ========================================= */
+/* Prevent "pre-scrolled" look: hero adds no vertical padding on mobile */
+@media (max-width: 1023.98px) {
+  .hero-mobile-fold {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Text column fills the first screen ONLY on mobile */
+@media (max-width: 1023.98px) {
+  .hero-first-screen {
+    /* fallback ensures older browsers render something stable */
+    min-height: calc(100vh - var(--nav-h));
+    /* dvh is stable on modern Safari/Chrome → prevents jump */
+    min-height: calc(100dvh - var(--nav-h));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* =========================================
+   HERO BEHAVIOR ON MD+
+   ========================================= */
+/* From md up, disable the forced min-height so content flows naturally.
+   This avoids reflow when going from "vh calc" → "auto". */
+@media (min-width: 768px) {
+  .hero-first-screen {
+    min-height: auto !important;
+    display: block !important;
+  }
+}
+
+/* Tightened hero spacing on md+ so text + cards fit in the fold
+   without overflowing into second screen. */
+/* Prevent browser scroll-anchoring micro "jump" on first paint */
+.no-anchoring { overflow-anchor: none; }
+
+/* Even tighter hero rhythm for md+ only (more than hero-md-tight) */
+@media (min-width: 768px) {
+  .hero-md-compact {
+    padding-top: 2.5rem !important;  /* tighter top */
+    padding-bottom: 2.5rem !important;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-md-compact {
+    padding-top: 3rem !important;    /* still tighter vs previous */
+    padding-bottom: 2.75rem !important;
+  }
+}
+
+/* Lift the entire hero on md+ without affecting mobile */
+@media (min-width: 768px) {
+  .hero-md-raise {
+    /* tighten more than hero-md-compact */
+    padding-top: 2.5rem !important;   /* was ~3.5–4rem */
+  }
+}
+@media (min-width: 1024px) {
+  .hero-md-raise {
+    padding-top: 3rem !important;     /* was ~4–6rem */
+  }
+}
+
+/* XL-only centering cap for sections that already have their own paddings */
+.section-center-xl {
+  margin-inline: auto;
+  width: 100%;
+}
+
+/* kick in only on very large screens */
+@media (min-width: 1280px) {
+  .section-center-xl {
+    max-width: 1280px;                  /* your content cap */
+    padding-left:  var(--gutter);       /* keep your safe gutters */
+    padding-right: var(--gutter);
+  }
+}
