@@ -3,7 +3,7 @@
 import { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { ContactForm } from "@/components/contact/ContactForm";
-import CanvasBackground from "@/components/contact/CanvasBackground";
+import Galaxy from "@/components/Galaxy";
 import { AiAssistantInfo } from "@/components/contact/AiAssistantInfo";
 import { GetInTouchInfo } from "@/components/contact/GetInTouchInfo";
 
@@ -13,9 +13,9 @@ const ContactPage = () => {
       <Toaster
         position="top-center"
         /* push it below your fixed navbar height + a little gap */
-        containerStyle={{ 
-          zIndex: 2147483647, 
-          top: "calc(var(--nav-h, 64px) + 8px)" 
+        containerStyle={{
+          zIndex: 2147483647,
+          top: "calc(var(--nav-h, 64px) + 8px)",
         }}
         toastOptions={{
           style: { zIndex: 2147483647 },
@@ -23,14 +23,36 @@ const ContactPage = () => {
         }}
       />
 
-
       <div className="min-h-screen w-full bg-transparent text-foreground relative font-sans">
-        <CanvasBackground />
+        {/* Full-page Galaxy Background */}
+        <div className="fixed inset-0 z-0">
+          <Galaxy
+            focal={[0.5, 0.5]}
+            rotation={[1.0, 0.0]}
+            starSpeed={0.2}
+            density={0.3}
+            hueShift={0}
+            speed={0.4}
+            mouseInteraction={true}
+            glowIntensity={0.3}
+            saturation={0.4}
+            mouseRepulsion={true}
+            twinkleIntensity={0.2}
+            rotationSpeed={0.03}
+            repulsionStrength={1.0}
+            autoCenterRepulsion={0}
+            transparent={false}
+          />
+        </div>
+
+        {/* Dark overlay for better readability */}
+        <div className="fixed inset-0 z-10 bg-black/40 pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="section-spacing relative container container-gutters"
+          className="section-spacing relative container container-gutters z-20"
         >
           {/* Heading */}
           <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-10 pt-5 md:pt-0">
@@ -38,7 +60,8 @@ const ContactPage = () => {
               Connect with the Future
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-white max-w-2xl mx-auto">
-              Have a question or a brilliant idea? Reach out and let our AI-assisted platform guide your message.
+              Have a question or a brilliant idea? Reach out and let our
+              AI-assisted platform guide your message.
             </p>
           </div>
 

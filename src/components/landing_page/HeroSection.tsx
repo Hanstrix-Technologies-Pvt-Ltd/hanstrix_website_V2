@@ -1,7 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import LiquidEther from "@/components/LiquidEther";
 
 const HeroSection = () => {
   return (
@@ -16,30 +15,6 @@ const HeroSection = () => {
         no-anchoring
       "
     >
-      {/* LiquidEther Background */}
-      <div className="absolute inset-0 z-0">
-        <LiquidEther
-          colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-          mouseForce={20}
-          cursorSize={100}
-          isViscous={false}
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
-          isBounce={false}
-          autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
-      </div>
-
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 z-10 bg-black/30 pointer-events-none" />
-
       {/* Content */}
       <div className="relative z-20 section-center-xl max-w-6xl w-full space-y-8 mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight animate-fade-in-up px-2 sm:px-4">
