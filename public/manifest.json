@@ -1,0 +1,78 @@
+{
+    "name": "Hanstrix - AI & Digital Solutions",
+    "short_name": "Hanstrix",
+    "description": "Leading AI/ML, ERP Software, Digital Marketing & Web Development solutions. Transform your business with cutting-edge technology.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#030303",
+    "theme_color": "#5227FF",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "categories": [
+        "business",
+        "productivity",
+        "technology"
+    ],
+    "lang": "en",
+    "dir": "ltr",
+    "icons": [
+        {
+            "src": "/images/final_logo.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/images/final_logo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/images/Hero_BG.jpg",
+            "sizes": "1280x720",
+            "type": "image/jpeg",
+            "form_factor": "wide",
+            "label": "Hanstrix AI Solutions Dashboard"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "AI/ML Services",
+            "short_name": "AI/ML",
+            "description": "Explore our AI and Machine Learning solutions",
+            "url": "/services/ai-ml",
+            "icons": [
+                {
+                    "src": "/images/AI.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Contact Us",
+            "short_name": "Contact",
+            "description": "Get in touch with our experts",
+            "url": "/contact",
+            "icons": [
+                {
+                    "src": "/images/final_logo.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "share_target": {
+        "action": "/contact",
+        "method": "GET",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    }
+}
