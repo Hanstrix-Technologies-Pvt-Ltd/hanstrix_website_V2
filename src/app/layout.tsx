@@ -15,6 +15,7 @@ import PerformanceMonitor, {
   PerformanceBudgetMonitor,
 } from "@/components/global/PerformanceMonitor";
 import WebVitalsReporter from "@/components/global/WebVitalsReporter";
+import { AdvancedMouseSpotlight } from "@/components/global/MouseSpotlight";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -169,6 +170,12 @@ export default function RootLayout({
             <PerformanceMonitor />
             <PerformanceBudgetMonitor />
             <WebVitalsReporter />
+            <AdvancedMouseSpotlight
+              size={300}
+              opacity={0.4}
+              blur={40}
+              color="#4ade80"
+            />
           </div>
         </SmoothScrollProvider>
       </body>
